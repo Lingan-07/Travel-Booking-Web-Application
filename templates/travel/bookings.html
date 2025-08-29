@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block content %}
+<h3>My Bookings</h3>
+<table class="table">
+  <thead><tr><th>ID</th><th>Travel</th><th>Seats</th><th>Total</th><th>Status</th><th></th></tr></thead>
+  <tbody>
+    {% for b in bookings %}
+      <tr>
+        <td>{{ b.id }}</td>
+        <td>{{ b.travel_option.travel_id }} ({{ b.travel_option.source }}→{{ b.travel_option.destination }})</td>
+        <td>{{ b.seats }}</td>
+        <td>₹{{ b.total_price }}</td>
+        <td>{{ b.get_status_display }}</td>
+        <td>
+          {% if b.status == "CONFIRMED" %}
+            <a class="btn btn-sm btn-outline-danger" href="{% url 'travel:cancel' b.pk %}">Cancel</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="6">No bookings yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

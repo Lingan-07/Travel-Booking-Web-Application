@@ -1,0 +1,7 @@
+{% extends "base.html" %}{% block content %}
+<h4>Book: {{ item.travel_id }} (₹{{ item.price }} per seat)</h4>
+<form method="post" class="col-12 col-md-4">{% csrf_token %}
+  {{ form.as_p }}
+  <button class="btn btn-success">Confirm Booking</button>
+</form>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}{% block content %}
+<h3>Available Travel Options</h3>
+<form class="row g-2 mb-3">
+  <div class="col-12 col-md-2"><input name="source" value="{{ q.source }}" class="form-control" placeholder="Source"></div>
+  <div class="col-12 col-md-2"><input name="dest" value="{{ q.dest }}" class="form-control" placeholder="Destination"></div>
+  <div class="col-12 col-md-2"><input type="date" name="date" value="{{ q.date }}" class="form-control"></div>
+  <div class="col-12 col-md-2">
+    <select name="type" class="form-select">
+      <option value="">Any</option>
+      <option value="FLIGHT" {% if q.type == 'FLIGHT' %}selected{% endif %}>Flight</option>
+      <option value="TRAIN" {% if q.type == 'TRAIN' %}selected{% endif %}>Train</option>
+      <option value="BUS" {% if q.type == 'BUS' %}selected{% endif %}>Bus</option>
+    </select>
+  </div>
+  <div class="col-12 col-md-2"><button class="btn btn-primary w-100">Filter</button></div>
+</form>
+
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead><tr><th>ID</th><th>Type</th><th>Route</th><th>Departure</th><th>Price</th><th>Seats</th><th></th></tr></thead>
+  <tbody>
+    {% for i in items %}
+      <tr>
+        <td>{{ i.travel_id }}</td>
+        <td>{{ i.get_type_display }}</td>
+        <td>{{ i.source }} → {{ i.destination }}</td>
+        <td>{{ i.departure }}</td>
+        <td>₹{{ i.price }}</td>
+        <td>{{ i.available_seats }}</td>
+        <td><a class="btn btn-sm btn-success" href="{% url 'travel:detail' i.pk %}">View</a></td>
+      </tr>
+    {% empty %}
+      <tr><td colspan="7">No options found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endblock %}
